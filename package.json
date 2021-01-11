@@ -1,5 +1,5 @@
 {
-  "name": "nodebalance",
+  "name": "node-balance",
   "version": "1.0.0",
   "description": "Used to interpret data from multiple balances through serial port.",
   "main": "dist/index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AyAyEm/nodebalance.git"
+    "url": "git+https://github.com/AyAyEm/node-balance.git"
   },
   "author": "AyAyEm",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AyAyEm/nodebalance/issues"
+    "url": "https://github.com/AyAyEm/node-balance/issues"
   },
-  "homepage": "https://github.com/AyAyEm/nodebalance#readme",
+  "homepage": "https://github.com/AyAyEm/node-balance#readme",
   "dependencies": {
     "@serialport/binding-mock": "^9.0.2",
     "lodash": "^4.17.20",
