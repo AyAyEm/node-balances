@@ -1,0 +1,17 @@
+# Loophole files
+node_modules
+dist
+build
+
+# Env file
+.env
+
+# Database files
+database.sqlite
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Error files
+yarn-error.log
