@@ -56,6 +56,6 @@ jobs:
           git commit -m "build: tsc build for ${GITHUB_SHA}" || true
           git push origin $TARGET_BRANCH
         env:
-          GITHUB_TOKEN: ${{ secrets.ETERNITY_TOKEN }}
-          GITHUB_ACTOR: WarNote
+          GITHUB_TOKEN: ${{ secrets.NODE_BALANCE_TOKEN }}
+          GITHUB_ACTOR: AyAyEm
           GITHUB_EMAIL: andre_20113meira@hotmail.com
