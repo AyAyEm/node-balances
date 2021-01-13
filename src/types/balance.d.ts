@@ -9,6 +9,12 @@ export interface BalanceInfo {
   balanceModel: keyof typeof BalanceModels;
 }
 
+export interface ReadingData {
+  weight: number,
+  price?: number,
+  total?: number,
+}
+
 export enum BalanceEvents {
   reading = 'reading',
   connect = 'connect',
