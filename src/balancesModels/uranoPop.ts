@@ -28,16 +28,6 @@ export class UranoPop extends BalanceModel {
     stopBits: 2,
   };
 
-  public regExp = (() => {
-    const separator = '[,.]';
-    const value = `\\d+${separator}\\d+`;
-    const weightRegex = `.+(?<weight>${value}(?=.?kg\\s+))`;
-    const priceRegex = `.+?(?<price>${value})`;
-    const totalRegex = `.+?(?<total>${value})`;
-
-    return new RegExp(`${weightRegex}${priceRegex}${totalRegex}`);
-  })();
-
   /**
    * Execute a query in the balance requesting the data.
    */
@@ -52,14 +42,44 @@ export class UranoPop extends BalanceModel {
     return _.trim(data, ' ').replace(/,/g, '.');
   }
 
+  public match(data: string) {
+    const separator = '[,.]';
+    const value = `\\d+${separator}\\d+`;
+    const weightRegex = `(?<weight>${value}(?=.?kg\\s+))`;
+    const priceRegex = `.+?(?<price>${value})`;
+    const totalRegex = `.+?(?<total>${value})`;
+
+    let regex: RegExp;
+    if (data.startsWith('\u{1B}')) {
+      regex = new RegExp(`(?=.+)${weightRegex}${priceRegex}${totalRegex}`);
+    } else {
+      regex = new RegExp(`(?<=:\\s{2})${weightRegex}${priceRegex}${totalRegex}$`);
+    }
+
+    const { groups: { weight, price = '', total = '' } = {} } = data.match(regex);
+    if (!weight || weight.length <= 0) {
+      return null;
+    }
+
+    return { weight, price, total };
+  }
+
+  public verify(data: string) {
+    if (this.match(data)) {
+      return true;
+    }
+
+    return false;
+  }
+
   /**
    * Execute a conversion of a string into a proper object.
    */
-  protected convert(data: string) {
-    const reading = data.match(this.regExp);
-    const weight = Math.round(Number(reading?.groups?.weight) * 1000) / 1000;
-    const price = Math.round(Number(reading?.groups?.price) * 100) / 100;
-    const total = Math.round(Number(reading?.groups?.total) * 100) / 100;
+  public convert(data: string) {
+    const reading = this.match(data);
+    const weight = Math.round(Number(reading.weight) * 1000) / 1000;
+    const price = Math.round(Number(reading.price) * 100) / 100;
+    const total = Math.round(Number(reading.total) * 100) / 100;
 
     const balanceReading = new BalanceReading({ weight, price, total });
     return balanceReading;

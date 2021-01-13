@@ -5,5 +5,6 @@ export * from './balancesModels';
 export * from './errors';
 export * from './parsers';
 export * from './structures';
+export * from './emulators';
 
 export default VidPidBalanceManager;

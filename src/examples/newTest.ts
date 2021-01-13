@@ -1,31 +1,7 @@
-import SerialPort from 'serialport';
-import { EventEmitter } from 'events';
+import fs from 'fs/promises';
 
-const MockBinding = require('@serialport/binding-mock');
+fs.readFile('./samples/uranoPop/use-p2').then((data) => console.log(data));
 
-const binding = new MockBinding({});
-SerialPort.Binding = MockBinding;
+console.log(Buffer.from('T2BN0           0,080 kg      0,00 N1     0,00 E'));
 
-MockBinding.createPort('/dev/ROBOT', { vendorId: 'teste vendor', productId: 'teste product' });
-
-const event = new EventEmitter();
-
-binding.open('/dev/ROBOT', { baudRate: 15000 }).then(() => {
-  binding.emitData('test\n');
-  event.emit('teste');
-});
-
-event.addListener('teste', () => {
-  binding.emitData('testing\n');
-});
-
-event.addListener('teste', () => {
-  process.nextTick(() => event.emit('teste'));
-});
-
-const port = new SerialPort('/dev/ROBOT', { baudRate: 15000 });
-port.addListener('data', (data) => {
-  console.log(data.toString());
-});
-
-export default 'testing';
+export default 'teste';

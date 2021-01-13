@@ -14,10 +14,6 @@ import type { BalanceModel } from '../structures';
  * balanceManager.start();
  */
 export class PnpBalanceManager extends BalanceManager {
-  public portsMap: PortsMap;
-
-  public currentBalance: BalanceModel;
-
   /**
    * Initiates the connection with the available balance.
    */

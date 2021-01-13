@@ -2,6 +2,8 @@ import { BalanceEventEmitter } from './balanceEventEmitter';
 
 import { BalanceId } from './balanceId';
 
+import type { PortsMap } from './portsMap';
+import type { BalanceModel } from './balanceModel';
 import type { BalanceInfo, Awaited } from '../types';
 
 /**
@@ -12,6 +14,10 @@ import type { BalanceInfo, Awaited } from '../types';
  */
 export abstract class BalanceManager extends BalanceEventEmitter {
   public readonly balanceIds: BalanceId[];
+
+  public portsMap: PortsMap;
+
+  public currentBalance: BalanceModel;
 
   public constructor(balanceIds: BalanceInfo[]) {
     super();

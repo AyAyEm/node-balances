@@ -1,6 +1,6 @@
 {
   "name": "node-balance",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Used to interpret data from multiple balances through serial port.",
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",

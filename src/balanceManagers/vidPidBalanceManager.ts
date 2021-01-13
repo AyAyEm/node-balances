@@ -29,19 +29,19 @@ export class VidPidBalanceManager extends BalanceManager {
         const Balance = _.find(balanceModels, (balance) => balance.model === balanceId.model);
 
         const { path } = this.portsMap.get(balanceId);
-        const currentBalance: BalanceModel = new Balance(balanceId, { path });
+        this.currentBalance = new Balance(balanceId, { path });
 
-        currentBalance.addListener('reading', (data) => this.emit('reading', data));
+        this.currentBalance.addListener('reading', (data) => this.emit('reading', data));
 
-        currentBalance.addListener('error', (err) => this.emit('error', err));
+        this.currentBalance.addListener('error', (err) => this.emit('error', err));
 
-        currentBalance.addListener('disconnect', () => {
-          this.emit('disconnect', currentBalance);
-          currentBalance.removeAllListeners();
+        this.currentBalance.addListener('disconnect', () => {
+          this.emit('disconnect', this.currentBalance);
+          this.currentBalance.removeAllListeners();
           this.restart();
         });
 
-        await currentBalance.connect().then(() => this.emit('connect', currentBalance));
+        await this.currentBalance.connect().then(() => this.emit('connect', this.currentBalance));
       })
       .catch((err) => {
         if (this.listenerCount('error') > 0) this.emit('error', err);
@@ -53,6 +53,7 @@ export class VidPidBalanceManager extends BalanceManager {
    * Restarts the balance connection.
    */
   public async restart() {
+    this.currentBalance.removeAllListeners();
     setTimeout(() => this.start(), 1000);
   }
 

@@ -43,6 +43,11 @@ export class PortsMap {
     return null;
   }
 
+  public add(balanceId: BalanceId) {
+    return this.map
+      .set(getIdentifierFromPort(this.identifiers, balanceId.port), balanceId.port as PortInfo);
+  }
+
   public has(balanceId: BalanceId): boolean;
   public has(pnpId: string): boolean;
   public has(id: BalanceId | string): boolean {

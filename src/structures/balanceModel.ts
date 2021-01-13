@@ -4,11 +4,11 @@ import { Transform } from 'stream';
 import type { OpenOptions } from 'serialport';
 
 import { BalanceEventEmitter } from './balanceEventEmitter';
+import { BalanceError } from '../errors/balanceError';
 
 import type { BalanceId } from './balanceId';
 import type { BalanceReading } from './balanceReading';
-
-import { BalanceError } from '../errors/balanceError';
+import type { ReadingData, InStringOf } from '../types';
 
 export interface BalanceOptions {
   path: string;
@@ -40,8 +40,6 @@ export abstract class BalanceModel extends BalanceEventEmitter {
 
   public readonly abstract parser: Transform;
 
-  protected abstract regExp: RegExp;
-
   public constructor(
     balanceId: InstanceType<typeof BalanceId>,
     options?: BalanceOptions,
@@ -54,11 +52,6 @@ export abstract class BalanceModel extends BalanceEventEmitter {
   }
 
   /**
-   * Execute a conversion of a string into a proper object.
-   */
-  protected abstract convert(data: string): BalanceReading;
-
-  /**
    * Execute a query in the balance requesting the data.
    */
   protected abstract requireData(): void;
@@ -69,6 +62,15 @@ export abstract class BalanceModel extends BalanceEventEmitter {
   protected sanitize(data: string): string {
     return data;
   }
+
+  /**
+   * Execute a conversion of a string into a proper object.
+   */
+  public abstract convert(data: string): BalanceReading;
+
+  public abstract match(data: string): InStringOf<ReadingData>;
+
+  public abstract verify(data: string): boolean;
 
   /**
    * Initiate connection with the serialPort and attach the listeners with the parser with it.
@@ -90,7 +92,7 @@ export abstract class BalanceModel extends BalanceEventEmitter {
     this.parser.addListener('data', (data: Buffer) => {
       const dataSanitized = this.sanitize(typeof data === 'string' ? data : data.toString());
 
-      if (dataSanitized === this.lastReading || !this.regExp.test(dataSanitized)) return;
+      if (dataSanitized === this.lastReading || !this.verify(dataSanitized)) return;
       this.lastReading = dataSanitized;
 
       try {

@@ -1,3 +1,5 @@
+import type { ReadingData } from '../types';
+
 /**
  * The standard of data output.
  */
@@ -8,7 +10,7 @@ export class BalanceReading {
 
   public total: number | null;
 
-  public constructor(readingData: { weight: number, price?: number, total?: number }) {
+  public constructor(readingData: ReadingData) {
     let { weight, price, total } = readingData ?? {};
 
     if (Number.isNaN(Number(weight))) {
