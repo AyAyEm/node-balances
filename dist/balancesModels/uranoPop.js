@@ -1,10 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UranoPop = void 0;
-const lodash_1 = __importDefault(require("lodash"));
+const tslib_1 = require("tslib");
+const lodash_1 = tslib_1.__importDefault(require("lodash"));
 const balanceModel_1 = require("../structures/balanceModel");
 const balanceReading_1 = require("../structures/balanceReading");
 const parsers_1 = require("../parsers");

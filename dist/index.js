@@ -1,22 +1,13 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const balanceManagers_1 = require("./balanceManagers");
-__exportStar(require("./balanceManagers"), exports);
-__exportStar(require("./balancesModels"), exports);
-__exportStar(require("./errors"), exports);
-__exportStar(require("./parsers"), exports);
-__exportStar(require("./structures"), exports);
-__exportStar(require("./emulators"), exports);
-__exportStar(require("./types"), exports);
+tslib_1.__exportStar(require("./balanceManagers"), exports);
+tslib_1.__exportStar(require("./balancesModels"), exports);
+tslib_1.__exportStar(require("./errors"), exports);
+tslib_1.__exportStar(require("./parsers"), exports);
+tslib_1.__exportStar(require("./structures"), exports);
+tslib_1.__exportStar(require("./emulators"), exports);
+tslib_1.__exportStar(require("./types"), exports);
 exports.default = balanceManagers_1.VidPidBalanceManager;
 //# sourceMappingURL=index.js.map

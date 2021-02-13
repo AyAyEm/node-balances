@@ -1,19 +1,8 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BalanceModel = void 0;
-const serialport_1 = __importDefault(require("serialport"));
+const tslib_1 = require("tslib");
+const serialport_1 = tslib_1.__importDefault(require("serialport"));
 const balanceEventEmitter_1 = require("./balanceEventEmitter");
 /**
  * Model designed to work with a specific balance.
@@ -44,7 +33,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
      *   .catch((error) => error);
      */
     connect() {
-        return __awaiter(this, void 0, void 0, function* () {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
             this.serialPort = new serialport_1.default(this.portPath, Object.assign(Object.assign({}, this.portOpenOptions), { autoOpen: false }));
             yield new Promise((resolve, reject) => this.serialPort.open((err) => {
                 if (err)
@@ -96,7 +85,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
     */
     disconnect(err) {
         var _a, _b, _c, _d;
-        return __awaiter(this, void 0, void 0, function* () {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
             if (err)
                 this.emit('error', err);
             if ((_b = !((_a = this.serialPort) === null || _a === void 0 ? void 0 : _a.destroyed)) !== null && _b !== void 0 ? _b : false) {
@@ -115,7 +104,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
      * Await a disconnect and then execute a connect.
      */
     reconnect(err) {
-        return __awaiter(this, void 0, void 0, function* () {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
             yield this.disconnect(err);
             return this.connect();
         });
