@@ -5,6 +5,7 @@
         "outDir": "./dist/",
         "module": "CommonJS",
         "declaration": true,
+    "importHelpers": true,
         "forceConsistentCasingInFileNames": true,
         "esModuleInterop": true,
         "resolveJsonModule": true,
