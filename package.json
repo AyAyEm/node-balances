@@ -22,7 +22,8 @@
   "dependencies": {
     "@serialport/binding-mock": "^9.0.2",
     "lodash": "^4.17.20",
-    "serialport": "9.0.3"
+    "serialport": "9.0.3",
+    "@types/serialport": "^8.0.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.165",
