@@ -17,5 +17,6 @@ __exportStar(require("./errors"), exports);
 __exportStar(require("./parsers"), exports);
 __exportStar(require("./structures"), exports);
 __exportStar(require("./emulators"), exports);
+__exportStar(require("./types"), exports);
 exports.default = balanceManagers_1.VidPidBalanceManager;
 //# sourceMappingURL=index.js.map
