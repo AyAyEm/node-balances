@@ -1,9 +1,7 @@
-import _ from 'lodash';
-
 import type { PortInfo } from 'serialport';
 
 import { BalanceError } from '../errors';
-import * as models from '../balancesModels';
+import * as models from '../data/models.json';
 
 /**
  * The standard identification of a balance.
@@ -14,7 +12,7 @@ export class BalanceId {
   public model: string;
 
   public constructor(portId: Partial<PortInfo>, balanceModel: string) {
-    if (_.every(models, ({ model }) => model !== balanceModel)) {
+    if (Object.keys(models).every((model) => model.toLowerCase() !== balanceModel.toLowerCase())) {
       throw new BalanceError([
         `Balance model: ${balanceModel} not found in the possible models: `,
         Object.keys(models).join(', '),
