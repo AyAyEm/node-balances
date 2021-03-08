@@ -6,7 +6,7 @@ import type { OpenOptions } from 'serialport';
 import { BalanceEventEmitter } from './balanceEventEmitter';
 import { BalanceError } from '../errors/balanceError';
 
-import type { BalanceId } from './balanceId';
+import { BalanceId } from './balanceId';
 import type { BalanceReading } from './balanceReading';
 import type { ReadingData, InStringOf } from '../types';
 
@@ -45,6 +45,9 @@ export abstract class BalanceModel extends BalanceEventEmitter {
     options?: BalanceOptions,
   ) {
     super();
+    if (!(balanceId instanceof BalanceId)) {
+      throw new BalanceError('Invalid balanceId, it\'s not an instance of BalanceId.');
+    }
     this.balanceId = balanceId;
 
     const { path } = options ?? {};
