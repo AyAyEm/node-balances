@@ -1,4 +1,4 @@
-import SerialPort from 'serialport';
+import SerialPort, { Binding } from 'serialport';
 
 import type { PortInfo, BaseBinding } from 'serialport';
 
@@ -121,11 +121,13 @@ export abstract class BalanceEmulator {
   }
 
   /**
-   * Disconnect the emulator clearing all loopIntervals.
+   * Disconnect the emulator clearing all loopIntervals and restoring the default binding.
    */
   public async disconnect(): Promise<void> {
     this.loopIntervals.forEach((loop) => clearInterval(loop));
     this.loopIntervals = [];
+
+    SerialPort.Binding = Binding;
   }
 }
 export default BalanceEmulator;
