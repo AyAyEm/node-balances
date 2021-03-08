@@ -1,26 +1,21 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "lib": ["ESNext"],
-        "outDir": "./dist/",
-        "module": "CommonJS",
-        "declaration": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["ESNext"],
+    "outDir": "./dist/",
+    "module": "CommonJS",
+    "declaration": true,
     "importHelpers": true,
-        "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "allowSyntheticDefaultImports": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
-    },
-    "include": [
-        "src",
-        "src/**.d.ts"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
 }

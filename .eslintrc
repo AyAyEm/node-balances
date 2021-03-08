@@ -6,7 +6,7 @@
   "extends": ["airbnb-typescript/base"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json", "./tests/tsconfig.json"],
     "ecmaVersion": 12,
     "sourceType": "module"
   },
