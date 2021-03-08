@@ -4,6 +4,8 @@ exports.BalanceModel = void 0;
 const tslib_1 = require("tslib");
 const serialport_1 = tslib_1.__importDefault(require("serialport"));
 const balanceEventEmitter_1 = require("./balanceEventEmitter");
+const balanceError_1 = require("../errors/balanceError");
+const balanceId_1 = require("./balanceId");
 /**
  * Model designed to work with a specific balance.
  * @example
@@ -15,6 +17,9 @@ const balanceEventEmitter_1 = require("./balanceEventEmitter");
 class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
     constructor(balanceId, options) {
         super();
+        if (!(balanceId instanceof balanceId_1.BalanceId)) {
+            throw new balanceError_1.BalanceError('Invalid balanceId, it\'s not an instance of BalanceId.');
+        }
         this.balanceId = balanceId;
         const { path } = options !== null && options !== void 0 ? options : {};
         this.portPath = path;

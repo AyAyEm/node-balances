@@ -39,7 +39,7 @@ export declare abstract class BalanceEmulator {
      */
     addBalance(balance: BalanceId): Promise<Map<string, SerialPort.PortInfo>>;
     /**
-     * Disconnect the emulator clearing all loopIntervals.
+     * Disconnect the emulator clearing all loopIntervals and restoring the default binding.
      */
     disconnect(): Promise<void>;
 }

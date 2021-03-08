@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BalanceEmulator = void 0;
 const tslib_1 = require("tslib");
-const serialport_1 = tslib_1.__importDefault(require("serialport"));
+const serialport_1 = tslib_1.__importStar(require("serialport"));
 const utils_1 = require("../utils");
 const MockBinding = require('@serialport/binding-mock');
 /**
@@ -96,12 +96,13 @@ class BalanceEmulator {
         });
     }
     /**
-     * Disconnect the emulator clearing all loopIntervals.
+     * Disconnect the emulator clearing all loopIntervals and restoring the default binding.
      */
     disconnect() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             this.loopIntervals.forEach((loop) => clearInterval(loop));
             this.loopIntervals = [];
+            serialport_1.default.Binding = serialport_1.Binding;
         });
     }
 }
