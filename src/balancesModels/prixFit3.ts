@@ -3,6 +3,8 @@ import type { OpenOptions } from 'serialport';
 import { BalanceModel } from '../structures/balanceModel';
 import { BalanceReading } from '../structures/balanceReading';
 
+import type { BalanceModels } from '../types';
+
 /**
  * Model designed to work with a specific balance.
  * @example
@@ -12,7 +14,7 @@ import { BalanceReading } from '../structures/balanceReading';
  *   .catch((error) => error);
  */
 export class PrixFit3 extends BalanceModel {
-  public static model = 'prixFit3';
+  public static model: keyof typeof BalanceModels = 'prixFit3';
 
   public parser: null = null;
 
@@ -35,8 +37,8 @@ export class PrixFit3 extends BalanceModel {
    */
   protected sanitize(data: string) {
     return data
-      .replace(/\x05\r/g, '')
-      .replace(/,/g, '.');
+      .replace(/,/g, '.')
+      .match(/\d+[.,]?\d+/)[0];
   }
 
   public match(data: string) {
@@ -55,9 +57,17 @@ export class PrixFit3 extends BalanceModel {
    * Execute a conversion of a string into a proper object.
    */
   public convert(data: string) {
-    const { weight } = this.match(data);
+    const sanitizedData = this.sanitize(data);
 
-    const balanceReading = new BalanceReading({ weight: +weight });
+    let finalData = sanitizedData;
+    if (sanitizedData.length === 5) {
+      const splittedData = data.split('');
+      splittedData.splice(2, 0, '.');
+
+      finalData = splittedData.join('');
+    }
+
+    const balanceReading = new BalanceReading({ weight: +finalData });
     return balanceReading;
   }
 }
