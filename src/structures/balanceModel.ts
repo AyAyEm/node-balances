@@ -38,7 +38,7 @@ export abstract class BalanceModel extends BalanceEventEmitter {
 
   public readonly abstract portOpenOptions: OpenOptions;
 
-  public readonly abstract parser: Transform;
+  public readonly abstract parser: Transform | null;
 
   public constructor(
     balanceId: InstanceType<typeof BalanceId>,
@@ -90,9 +90,13 @@ export abstract class BalanceModel extends BalanceEventEmitter {
       else resolve();
     }));
 
-    this.serialPort.pipe(this.parser);
+    let mainStream: Transform | SerialPort = this.serialPort;
+    if (this.parser) {
+      mainStream.pipe(this.parser);
+      mainStream = this.parser;
+    }
 
-    this.parser.addListener('data', (data: Buffer) => {
+    mainStream.addListener('data', (data: Buffer) => {
       const dataSanitized = this.sanitize(typeof data === 'string' ? data : data.toString());
 
       if (dataSanitized === this.lastReading || !this.verify(dataSanitized)) return;
@@ -139,7 +143,7 @@ export abstract class BalanceModel extends BalanceEventEmitter {
       this.serialPort?.destroy(err);
     }
 
-    if (!this.parser.destroyed) this.parser.removeAllListeners();
+    if (this.parser && !this.parser.destroyed) this.parser.removeAllListeners();
     if (this._readInterval) clearInterval(this._readInterval);
     this.serialPort = null;
     return this;
