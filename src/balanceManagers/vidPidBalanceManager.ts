@@ -26,7 +26,8 @@ export class VidPidBalanceManager extends BalanceManager {
 
     this.find()
       .then(async (balanceId) => {
-        const Balance = _.find(balanceModels, (balance) => balance.model === balanceId.model);
+        const Balance = _.find(balanceModels, (balance) => (
+          balance.model.toLowerCase() === balanceId.model.toLowerCase()));
 
         const { path } = this.portsMap.get(balanceId);
         this.currentBalance = new Balance(balanceId, { path });
