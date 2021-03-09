@@ -22,7 +22,7 @@ class VidPidBalanceManager extends structures_1.BalanceManager {
             yield this.generatePortsMap();
             this.find()
                 .then((balanceId) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-                const Balance = lodash_1.default.find(balanceModels, (balance) => balance.model === balanceId.model);
+                const Balance = lodash_1.default.find(balanceModels, (balance) => (balance.model.toLowerCase() === balanceId.model.toLowerCase()));
                 const { path } = this.portsMap.get(balanceId);
                 this.currentBalance = new Balance(balanceId, { path });
                 this.currentBalance.addListener('reading', (data) => this.emit('reading', data));

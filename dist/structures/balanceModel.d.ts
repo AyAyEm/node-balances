@@ -26,7 +26,7 @@ export declare abstract class BalanceModel extends BalanceEventEmitter {
     protected lastReading: string;
     private _readInterval;
     abstract readonly portOpenOptions: OpenOptions;
-    abstract readonly parser: Transform;
+    abstract readonly parser: Transform | null;
     constructor(balanceId: InstanceType<typeof BalanceId>, options?: BalanceOptions);
     /**
      * Execute a query in the balance requesting the data.

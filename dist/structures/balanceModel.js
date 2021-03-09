@@ -46,8 +46,12 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
                 else
                     resolve();
             }));
-            this.serialPort.pipe(this.parser);
-            this.parser.addListener('data', (data) => {
+            let mainStream = this.serialPort;
+            if (this.parser) {
+                mainStream.pipe(this.parser);
+                mainStream = this.parser;
+            }
+            mainStream.addListener('data', (data) => {
                 const dataSanitized = this.sanitize(typeof data === 'string' ? data : data.toString());
                 if (dataSanitized === this.lastReading || !this.verify(dataSanitized))
                     return;
@@ -97,7 +101,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
                 (_c = this.serialPort) === null || _c === void 0 ? void 0 : _c.removeAllListeners();
                 (_d = this.serialPort) === null || _d === void 0 ? void 0 : _d.destroy(err);
             }
-            if (!this.parser.destroyed)
+            if (this.parser && !this.parser.destroyed)
                 this.parser.removeAllListeners();
             if (this._readInterval)
                 clearInterval(this._readInterval);
