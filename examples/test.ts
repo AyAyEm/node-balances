@@ -1,4 +1,4 @@
-import { VidPidBalanceManager } from '../balanceManagers';
+import { VidPidBalanceManager } from '../src/balanceManagers';
 
 const manager = new VidPidBalanceManager([{ portId: { path: 'COM5' }, balanceModel: 'uranoPop' }]);
 manager.start();

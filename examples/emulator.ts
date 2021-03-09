@@ -1,6 +1,6 @@
 import { PortInfo } from 'serialport';
 
-import { GenericEmulator, VidPidBalanceManager } from '..';
+import { GenericEmulator, VidPidBalanceManager } from '../src';
 
 const port: Partial<PortInfo> = { productId: 'testing', path: '/dev/ROBOT', vendorId: 'teste' };
 const manager = new VidPidBalanceManager([{ balanceModel: 'uranoPop', portId: port }]);
