@@ -6,7 +6,7 @@ import { BalanceEventEmitter } from './balanceEventEmitter';
 import { BalanceError } from '../errors/balanceError';
 import { BalanceId } from './balanceId';
 import type { BalanceReading } from './balanceReading';
-import type { ReadingData, InStringOf } from '../types';
+import type { ReadingData, InStringOf, BalanceModels } from '../types';
 export interface BalanceOptions {
     path: string;
 }
@@ -19,7 +19,7 @@ export interface BalanceOptions {
  *   .catch((error) => error);
  */
 export declare abstract class BalanceModel extends BalanceEventEmitter {
-    static readonly model: string;
+    static readonly model: keyof typeof BalanceModels;
     readonly balanceId: BalanceId;
     readonly portPath: string;
     serialPort: InstanceType<typeof SerialPort>;

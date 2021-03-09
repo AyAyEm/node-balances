@@ -2,6 +2,7 @@ import type { OpenOptions } from 'serialport';
 import { BalanceModel } from '../structures/balanceModel';
 import { BalanceReading } from '../structures/balanceReading';
 import { DelimiterParser } from '../parsers';
+import type { BalanceModels } from '../types';
 /**
  * Model designed to work with a specific balance.
  * @example
@@ -11,7 +12,7 @@ import { DelimiterParser } from '../parsers';
  *   .catch((error) => error);
  */
 export declare class UranoPop extends BalanceModel {
-    static model: string;
+    static model: keyof typeof BalanceModels;
     parser: DelimiterParser;
     portOpenOptions: OpenOptions;
     /**

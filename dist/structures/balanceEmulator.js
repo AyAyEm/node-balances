@@ -4,6 +4,7 @@ exports.BalanceEmulator = void 0;
 const tslib_1 = require("tslib");
 const serialport_1 = tslib_1.__importStar(require("serialport"));
 const utils_1 = require("../utils");
+const models_json_1 = tslib_1.__importDefault(require("../data/models.json"));
 const MockBinding = require('@serialport/binding-mock');
 /**
  * @description Debug tool mocking the balance to output data without the need of the real one.
@@ -11,10 +12,13 @@ const MockBinding = require('@serialport/binding-mock');
  */
 class BalanceEmulator {
     constructor(portIds, manager) {
+        this._emittingData = models_json_1.default;
         this.loopIntervals = [];
         this.portIds = portIds;
         this.manager = manager;
-        this.emittingData = Buffer.from('T2BN0           0,060 kg      0,00 N1     0,00 E');
+    }
+    get emittingData() {
+        return this._emittingData;
     }
     /**
      * Start the emulation of the balances.
@@ -27,7 +31,15 @@ class BalanceEmulator {
                 return this;
             };
             this.manager.addListener('connect', (balance) => {
-                const emitData = () => balance.serialPort.binding.emitData(this.emittingData);
+                const emitData = () => {
+                    if (this._emittingData instanceof Buffer) {
+                        return balance.serialPort.binding.emitData(this._emittingData);
+                    }
+                    const { model } = balance.balanceId;
+                    const modelData = this._emittingData[model].samples;
+                    const toEmitData = modelData[utils_1.randomInterval([0, modelData.length - 1])];
+                    return balance.serialPort.binding.emitData(Buffer.from(toEmitData.data));
+                };
                 emitData();
                 const interval = setInterval(() => {
                     if (!balance.serialPort) {
@@ -52,17 +64,17 @@ class BalanceEmulator {
     setEmittingData(data) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             if (typeof data === 'string') {
-                this.emittingData = Buffer.from(data);
+                this._emittingData = Buffer.from(data);
                 return;
             }
             if (data instanceof Buffer) {
-                this.emittingData = data;
+                this._emittingData = data;
                 return;
             }
             const { weight, price, total } = data;
-            const emittingData = this.emittingData.toString();
+            const emittingData = this._emittingData.toString();
             const readingData = this.manager.currentBalance.match(emittingData);
-            this.emittingData = Buffer.from(emittingData
+            this._emittingData = Buffer.from(emittingData
                 .replace(readingData.weight, weight.toFixed(3))
                 .replace(readingData.price, price.toFixed(2))
                 .replace(readingData.total, total.toFixed(2)));

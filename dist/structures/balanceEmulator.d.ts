@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import SerialPort from 'serialport';
 import type { PortInfo } from 'serialport';
+import modelsData from '../data/models.json';
 import type { BalanceManager } from './balanceManager';
 import type { BalanceId } from './balanceId';
 import type { ReadingData } from '../types';
@@ -11,9 +12,17 @@ import type { ReadingData } from '../types';
 export declare abstract class BalanceEmulator {
     manager: BalanceManager;
     portIds: Partial<PortInfo>[];
-    protected emittingData: Buffer;
+    protected _emittingData: Buffer | typeof modelsData;
     protected loopIntervals: Array<ReturnType<typeof setInterval>>;
     constructor(portIds: Partial<PortInfo>[], manager: BalanceManager);
+    get emittingData(): Buffer | {
+        uranoPop: {
+            samples: {
+                name: string;
+                data: string;
+            }[];
+        };
+    };
     /**
      * Start the emulation of the balances.
      */
