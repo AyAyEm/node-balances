@@ -9,5 +9,15 @@
         "data": "\u001bT2\u001bB\u001bN0           0,060 kg      0,00 \u001bN1     0,00 \u001bE\u001b"
       }
     ]
+  },
+  "prixFit3": {
+    "samples": [{
+      "name": "Prt1",
+      "data": "\u000212345\u0003"
+    },
+    {
+      "name": "Prt2",
+      "data": "\u000212.345\u0003"
+    }]
   }
 }
