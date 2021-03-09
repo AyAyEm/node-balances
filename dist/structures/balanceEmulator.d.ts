@@ -22,6 +22,12 @@ export declare abstract class BalanceEmulator {
                 data: string;
             }[];
         };
+        prix3: {
+            samples: {
+                name: string;
+                data: string;
+            }[];
+        };
     };
     /**
      * Start the emulation of the balances.

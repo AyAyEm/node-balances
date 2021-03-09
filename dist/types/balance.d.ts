@@ -1,6 +1,7 @@
 import type { PortInfo } from 'serialport';
 export declare enum BalanceModels {
-    uranoPop = "uranoPop"
+    uranoPop = "uranoPop",
+    prix3 = "prix3"
 }
 export interface BalanceInfo {
     portId: Partial<PortInfo>;
