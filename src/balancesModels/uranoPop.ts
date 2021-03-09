@@ -6,6 +6,8 @@ import { BalanceModel } from '../structures/balanceModel';
 import { BalanceReading } from '../structures/balanceReading';
 import { DelimiterParser } from '../parsers';
 
+import type { BalanceModels } from '../types';
+
 /**
  * Model designed to work with a specific balance.
  * @example
@@ -15,7 +17,7 @@ import { DelimiterParser } from '../parsers';
  *   .catch((error) => error);
  */
 export class UranoPop extends BalanceModel {
-  public static model = 'uranoPop';
+  public static model: keyof typeof BalanceModels = 'uranoPop';
 
   public parser = new DelimiterParser({
     delimiters: [[0x03, 0x09, 0x02, 0x01, 0x03], 'P1'],

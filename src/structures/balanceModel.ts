@@ -8,7 +8,7 @@ import { BalanceError } from '../errors/balanceError';
 
 import { BalanceId } from './balanceId';
 import type { BalanceReading } from './balanceReading';
-import type { ReadingData, InStringOf } from '../types';
+import type { ReadingData, InStringOf, BalanceModels } from '../types';
 
 export interface BalanceOptions {
   path: string;
@@ -24,7 +24,7 @@ export interface BalanceOptions {
  */
 
 export abstract class BalanceModel extends BalanceEventEmitter {
-  public static readonly model: string;
+  public static readonly model: keyof typeof BalanceModels;
 
   public readonly balanceId: BalanceId;
 
