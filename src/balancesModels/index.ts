@@ -1,2 +1,2 @@
 export * from './uranoPop';
-export * from './prixFit3';
+export * from './prix3';

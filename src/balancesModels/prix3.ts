@@ -13,8 +13,8 @@ import type { BalanceModels } from '../types';
  *   .then((balanceModel) => balanceModel)
  *   .catch((error) => error);
  */
-export class PrixFit3 extends BalanceModel {
-  public static model: keyof typeof BalanceModels = 'prixFit3';
+export class Prix3 extends BalanceModel {
+  public static model: keyof typeof BalanceModels = 'prix3';
 
   public parser: null = null;
 
@@ -36,39 +36,36 @@ export class PrixFit3 extends BalanceModel {
    * Execute the sanitization of the data in string format.
    */
   protected sanitize(data: string) {
-    return data
-      .replace(/,/g, '.')
-      .match(/\d+[.,]?\d+/)[0];
+    return data.replace(/,/g, '.');
   }
 
   public match(data: string) {
-    return { weight: data };
+    const weight = data.match(/\d+[.,]?\d+/)?.[0];
+    if (!weight) return null;
+
+    return { weight };
   }
 
   public verify(data: string) {
-    if (this.match(data)) {
-      return true;
-    }
-
-    return false;
+    return Boolean(this.match(data));
   }
 
   /**
    * Execute a conversion of a string into a proper object.
    */
   public convert(data: string) {
-    const sanitizedData = this.sanitize(data);
+    const { weight } = this.match(data);
 
-    let finalData = sanitizedData;
-    if (sanitizedData.length === 5) {
-      const splittedData = data.split('');
+    let sanitizedWeight = this.sanitize(weight);
+    if (sanitizedWeight.length === 5) {
+      const splittedData = sanitizedWeight.split('');
       splittedData.splice(2, 0, '.');
 
-      finalData = splittedData.join('');
+      sanitizedWeight = splittedData.join('');
     }
 
-    const balanceReading = new BalanceReading({ weight: +finalData });
+    const balanceReading = new BalanceReading({ weight: +sanitizedWeight });
     return balanceReading;
   }
 }
-export default PrixFit3;
+export default Prix3;
