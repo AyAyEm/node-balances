@@ -54,7 +54,7 @@ export class VidPidBalanceManager extends BalanceManager {
    * Restarts the balance connection.
    */
   public async restart() {
-    this.currentBalance.removeAllListeners();
+    this.currentBalance?.removeAllListeners();
     setTimeout(() => this.start(), 1000);
   }
 

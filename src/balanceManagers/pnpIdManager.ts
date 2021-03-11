@@ -49,6 +49,7 @@ export class PnpBalanceManager extends BalanceManager {
    * Restarts the balance connection.
    */
   public async restart() {
+    this.currentBalance?.removeAllListeners();
     setTimeout(() => this.start(), 1000);
   }
 
