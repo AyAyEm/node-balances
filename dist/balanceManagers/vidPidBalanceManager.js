@@ -45,8 +45,9 @@ class VidPidBalanceManager extends structures_1.BalanceManager {
      * Restarts the balance connection.
      */
     restart() {
+        var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            this.currentBalance.removeAllListeners();
+            (_a = this.currentBalance) === null || _a === void 0 ? void 0 : _a.removeAllListeners();
             setTimeout(() => this.start(), 1000);
         });
     }
