@@ -23,10 +23,10 @@
   },
   "homepage": "https://github.com/AyAyEm/node-balance#readme",
   "dependencies": {
-    "@serialport/binding-mock": "^9.0.2",
+    "@serialport/binding-mock": "^9.0.7",
+    "@types/serialport": "^8.0.1",
     "lodash": "^4.17.20",
-    "serialport": "9.0.3",
-    "@types/serialport": "^8.0.1"
+    "serialport": "^9.0.7"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
