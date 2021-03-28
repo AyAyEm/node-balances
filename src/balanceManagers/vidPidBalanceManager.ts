@@ -39,14 +39,22 @@ export class VidPidBalanceManager extends BalanceManager {
         this.currentBalance.addListener('disconnect', () => {
           this.emit('disconnect', this.currentBalance);
           this.currentBalance.removeAllListeners();
-          this.restart();
+          this._connected = false;
+
+          if (this.options.autoRestart) this.restart();
         });
 
-        await this.currentBalance.connect().then(() => this.emit('connect', this.currentBalance));
+        await this.currentBalance.connect().then(() => {
+          this.emit('connect', this.currentBalance);
+          this._connected = true;
+        });
       })
       .catch((err) => {
-        if (this.listenerCount('error') > 0) this.emit('error', err);
-        this.restart();
+        if (this.listenerCount('error') > 0) {
+          this.emit('error', err);
+        }
+
+        if (this.options.autoRestart) this.restart();
       });
   }
 
@@ -55,14 +63,14 @@ export class VidPidBalanceManager extends BalanceManager {
    */
   public async restart() {
     this.currentBalance?.removeAllListeners();
-    setTimeout(() => this.start(), 1000);
+    setTimeout(() => this.start(), this.options.restartInterval);
   }
 
   public async find() {
     const balanceId = this.balanceIds.find((balance) => this.portsMap.has(balance));
 
     if (!balanceId) {
-      return Promise.reject(new BalanceError('none ports were a match with balanceIds provided'));
+      return Promise.reject(new BalanceError('None ports were a match with balanceIds provided'));
     }
 
     return balanceId;

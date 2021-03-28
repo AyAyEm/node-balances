@@ -1,10 +1,17 @@
 import { BalanceEventEmitter } from './balanceEventEmitter';
 
 import { BalanceId } from './balanceId';
+import { BalanceError } from '../errors/balanceError';
 
 import type { PortsMap } from './portsMap';
 import type { BalanceModel } from './balanceModel';
 import type { BalanceInfo, Awaited } from '../types';
+
+interface ManagerOptions {
+  autoRestart: boolean;
+  restartInterval: number;
+  dataInterval: number;
+}
 
 /**
  * Designed to manage the variety of models into a single and standard way.
@@ -19,11 +26,25 @@ export abstract class BalanceManager extends BalanceEventEmitter {
 
   public currentBalance: BalanceModel;
 
-  public constructor(balanceIds: BalanceInfo[]) {
+  public readonly options: ManagerOptions;
+
+  protected _connected = false;
+
+  public get connected() {
+    return this._connected;
+  }
+
+  public constructor(balanceIds: BalanceInfo[], options?: Partial<ManagerOptions>) {
     super();
 
     this.balanceIds = balanceIds.map(({ portId, balanceModel }) => (
       new BalanceId(portId, balanceModel)));
+
+    this.options = {
+      autoRestart: options?.autoRestart ?? true,
+      restartInterval: options?.restartInterval ?? 1000,
+      dataInterval: options?.dataInterval ?? 200,
+    };
   }
 
   /**
@@ -36,6 +57,19 @@ export abstract class BalanceManager extends BalanceEventEmitter {
    * Restarts the balance connection.
    */
   public abstract restart(...args: unknown[]): Awaited<void | this>;
+
+  /**
+   * Search for a balanceId that matches a port in portsMap.
+   */
+  public async find() {
+    const balanceId = this.balanceIds.find((balance) => this.portsMap.has(balance));
+
+    if (!balanceId) {
+      return Promise.reject(new BalanceError('None ports were a match with balanceIds provided'));
+    }
+
+    return balanceId;
+  }
 }
 export default BalanceManager;
 

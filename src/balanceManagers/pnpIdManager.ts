@@ -34,14 +34,22 @@ export class PnpBalanceManager extends BalanceManager {
         currentBalance.addListener('disconnect', () => {
           this.emit('disconnect', currentBalance);
           currentBalance.removeAllListeners();
-          this.restart();
+          this._connected = false;
+
+          if (this.options.autoRestart) this.restart();
         });
 
-        await currentBalance.connect().then(() => this.emit('connect', currentBalance));
+        await currentBalance.connect().then(() => {
+          this.emit('connect', currentBalance);
+          this._connected = true;
+        });
       })
       .catch((err) => {
-        if (this.listenerCount('error') > 0) this.emit('error', err);
-        this.restart();
+        if (this.listenerCount('error') > 0) {
+          this.emit('error', err);
+        }
+
+        if (this.options.autoRestart) this.restart();
       });
   }
 
@@ -50,14 +58,14 @@ export class PnpBalanceManager extends BalanceManager {
    */
   public async restart() {
     this.currentBalance?.removeAllListeners();
-    setTimeout(() => this.start(), 1000);
+    setTimeout(() => this.start(), this.options.restartInterval);
   }
 
   public async find() {
     const balanceId = this.balanceIds.find((balance) => this.portsMap.has(balance));
 
     if (!balanceId) {
-      return Promise.reject(new BalanceError('none ports were a match with balanceIds provided'));
+      return Promise.reject(new BalanceError('None ports were a match with balanceIds provided'));
     }
 
     return balanceId;
