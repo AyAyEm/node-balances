@@ -12,6 +12,7 @@ import type { ReadingData, InStringOf, BalanceModels } from '../types';
 
 export interface BalanceOptions {
   path: string;
+  dataInterval: number;
 }
 
 /**
@@ -36,13 +37,15 @@ export abstract class BalanceModel extends BalanceEventEmitter {
 
   private _readInterval: ReturnType<typeof setInterval>;
 
+  private dataInterval: BalanceOptions['dataInterval'];
+
   public readonly abstract portOpenOptions: OpenOptions;
 
-  public readonly abstract parser: Transform | null;
+  public readonly abstract parser?: Transform;
 
   public constructor(
     balanceId: InstanceType<typeof BalanceId>,
-    options?: BalanceOptions,
+    options?: Partial<BalanceOptions>,
   ) {
     super();
     if (!(balanceId instanceof BalanceId)) {
@@ -52,6 +55,7 @@ export abstract class BalanceModel extends BalanceEventEmitter {
 
     const { path } = options ?? {};
     this.portPath = path;
+    this.dataInterval = options?.dataInterval ?? 200;
   }
 
   /**
@@ -122,7 +126,7 @@ export abstract class BalanceModel extends BalanceEventEmitter {
 
     this._readInterval = setInterval(() => {
       try { this.requireData(); } catch (err) { this.emit('error', err); }
-    }, 200);
+    }, this.dataInterval);
   }
 
   /**
