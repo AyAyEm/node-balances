@@ -16,6 +16,7 @@ const balanceId_1 = require("./balanceId");
  */
 class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
     constructor(balanceId, options) {
+        var _a;
         super();
         if (!(balanceId instanceof balanceId_1.BalanceId)) {
             throw new balanceError_1.BalanceError('Invalid balanceId, it\'s not an instance of BalanceId.');
@@ -23,6 +24,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
         this.balanceId = balanceId;
         const { path } = options !== null && options !== void 0 ? options : {};
         this.portPath = path;
+        this.dataInterval = (_a = options === null || options === void 0 ? void 0 : options.dataInterval) !== null && _a !== void 0 ? _a : 200;
     }
     /**
      * Execute the sanitization of the data in string format.
@@ -79,7 +81,7 @@ class BalanceModel extends balanceEventEmitter_1.BalanceEventEmitter {
                 catch (err) {
                     this.emit('error', err);
                 }
-            }, 200);
+            }, this.dataInterval);
         });
     }
     /**

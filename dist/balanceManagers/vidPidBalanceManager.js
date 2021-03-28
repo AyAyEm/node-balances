@@ -30,14 +30,21 @@ class VidPidBalanceManager extends structures_1.BalanceManager {
                 this.currentBalance.addListener('disconnect', () => {
                     this.emit('disconnect', this.currentBalance);
                     this.currentBalance.removeAllListeners();
-                    this.restart();
+                    this._connected = false;
+                    if (this.options.autoRestart)
+                        this.restart();
                 });
-                yield this.currentBalance.connect().then(() => this.emit('connect', this.currentBalance));
+                yield this.currentBalance.connect().then(() => {
+                    this.emit('connect', this.currentBalance);
+                    this._connected = true;
+                });
             }))
                 .catch((err) => {
-                if (this.listenerCount('error') > 0)
+                if (this.listenerCount('error') > 0) {
                     this.emit('error', err);
-                this.restart();
+                }
+                if (this.options.autoRestart)
+                    this.restart();
             });
         });
     }
@@ -48,14 +55,14 @@ class VidPidBalanceManager extends structures_1.BalanceManager {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             (_a = this.currentBalance) === null || _a === void 0 ? void 0 : _a.removeAllListeners();
-            setTimeout(() => this.start(), 1000);
+            setTimeout(() => this.start(), this.options.restartInterval);
         });
     }
     find() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const balanceId = this.balanceIds.find((balance) => this.portsMap.has(balance));
             if (!balanceId) {
-                return Promise.reject(new errors_1.BalanceError('none ports were a match with balanceIds provided'));
+                return Promise.reject(new errors_1.BalanceError('None ports were a match with balanceIds provided'));
             }
             return balanceId;
         });

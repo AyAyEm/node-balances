@@ -9,6 +9,7 @@ import type { BalanceReading } from './balanceReading';
 import type { ReadingData, InStringOf, BalanceModels } from '../types';
 export interface BalanceOptions {
     path: string;
+    dataInterval: number;
 }
 /**
  * Model designed to work with a specific balance.
@@ -25,9 +26,10 @@ export declare abstract class BalanceModel extends BalanceEventEmitter {
     serialPort: InstanceType<typeof SerialPort>;
     protected lastReading: string;
     private _readInterval;
+    private dataInterval;
     abstract readonly portOpenOptions: OpenOptions;
-    abstract readonly parser: Transform | null;
-    constructor(balanceId: InstanceType<typeof BalanceId>, options?: BalanceOptions);
+    abstract readonly parser?: Transform;
+    constructor(balanceId: InstanceType<typeof BalanceId>, options?: Partial<BalanceOptions>);
     /**
      * Execute a query in the balance requesting the data.
      */
