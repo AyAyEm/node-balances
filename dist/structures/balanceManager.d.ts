@@ -35,6 +35,15 @@ export declare abstract class BalanceManager extends BalanceEventEmitter {
      * Search for a balanceId that matches a port in portsMap.
      */
     find(): Promise<BalanceId>;
+    /**
+     * Adds a balance to the end of balanceIds.
+     */
+    addBalance(balanceInfo: BalanceInfo): void;
+    addBalance(balanceInfos: BalanceInfo[]): void;
+    /**
+     * Removes the first balance that it matches balanceInfo from balanceIds.
+     */
+    removeBalance(balanceInfo: BalanceInfo): void;
 }
 export default BalanceManager;
 export interface IManager {

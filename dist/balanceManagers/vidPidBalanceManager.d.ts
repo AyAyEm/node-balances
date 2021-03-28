@@ -1,5 +1,4 @@
-import { PortsMap, BalanceManager } from '../structures';
-import type { BalanceModel } from '../structures';
+import { BalanceManager } from '../structures';
 /**
  * Designed to manage the variety of models into a single and standard way.
  * @example
@@ -7,8 +6,6 @@ import type { BalanceModel } from '../structures';
  * balanceManager.start();
  */
 export declare class VidPidBalanceManager extends BalanceManager {
-    portsMap: PortsMap;
-    currentBalance: BalanceModel;
     /**
      * Initiates the connection with the available balance.
      */

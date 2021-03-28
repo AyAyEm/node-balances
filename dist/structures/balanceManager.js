@@ -38,6 +38,30 @@ class BalanceManager extends balanceEventEmitter_1.BalanceEventEmitter {
             return balanceId;
         });
     }
+    addBalance(balanceInfos) {
+        const ids = balanceInfos instanceof Array ? balanceInfos : [balanceInfos];
+        ids.forEach(({ portId, balanceModel }) => (this.balanceIds.push(new balanceId_1.BalanceId(portId, balanceModel))));
+    }
+    /**
+     * Removes the first balance that it matches balanceInfo from balanceIds.
+     */
+    removeBalance(balanceInfo) {
+        const balanceId = new balanceId_1.BalanceId(balanceInfo.portId, balanceInfo.balanceModel);
+        const sameModelIds = this.balanceIds.filter((id) => id.model === balanceId.model);
+        if (sameModelIds.length === 0)
+            return;
+        let toExcludeIndex;
+        sameModelIds.find((id, index) => {
+            const result = Object.entries(balanceId.port)
+                .reduce((acc, [key, value]) => ((acc && value !== id.port[key]) ? false : acc), true);
+            if (result)
+                toExcludeIndex = index;
+            return result;
+        });
+        if (typeof toExcludeIndex === 'number') {
+            this.balanceIds.splice(toExcludeIndex, 1);
+        }
+    }
 }
 exports.BalanceManager = BalanceManager;
 exports.default = BalanceManager;
