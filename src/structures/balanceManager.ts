@@ -1,3 +1,5 @@
+import type { PortInfo } from 'serialport';
+
 import { BalanceEventEmitter } from './balanceEventEmitter';
 
 import { BalanceId } from './balanceId';
@@ -5,7 +7,7 @@ import { BalanceError } from '../errors/balanceError';
 
 import type { PortsMap } from './portsMap';
 import type { BalanceModel } from './balanceModel';
-import type { BalanceInfo, Awaited } from '../types';
+import type { BalanceInfo, Awaited, Entries } from '../types';
 
 interface ManagerOptions {
   autoRestart: boolean;
@@ -69,6 +71,41 @@ export abstract class BalanceManager extends BalanceEventEmitter {
     }
 
     return balanceId;
+  }
+
+  /**
+   * Adds a balance to the end of balanceIds.
+   */
+  public addBalance(balanceInfo: BalanceInfo): void;
+  public addBalance(balanceInfos: BalanceInfo[]): void;
+  public addBalance(balanceInfos: BalanceInfo[] | BalanceInfo): void {
+    const ids = balanceInfos instanceof Array ? balanceInfos : [balanceInfos];
+    ids.forEach(({ portId, balanceModel }) => (
+      this.balanceIds.push(new BalanceId(portId, balanceModel))));
+  }
+
+  /**
+   * Removes the first balance that it matches balanceInfo from balanceIds.
+   */
+  public removeBalance(balanceInfo: BalanceInfo): void {
+    const balanceId = new BalanceId(balanceInfo.portId, balanceInfo.balanceModel);
+
+    const sameModelIds = this.balanceIds.filter((id) => id.model === balanceId.model);
+    if (sameModelIds.length === 0) return;
+
+    let toExcludeIndex: number;
+    sameModelIds.find((id, index) => {
+      const result = Object.entries(balanceId.port)
+        .reduce((acc, [key, value]: Entries<PortInfo>) => (
+          (acc && value !== id.port[key]) ? false : acc), true);
+
+      if (result) toExcludeIndex = index;
+      return result;
+    });
+
+    if (typeof toExcludeIndex === 'number') {
+      this.balanceIds.splice(toExcludeIndex, 1);
+    }
   }
 }
 export default BalanceManager;
