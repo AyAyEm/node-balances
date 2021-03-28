@@ -60,6 +60,6 @@ class Prix3 extends balanceModel_1.BalanceModel {
     }
 }
 exports.Prix3 = Prix3;
-Prix3.model = 'prix3';
+Prix3.model = 'Prix3';
 exports.default = Prix3;
 //# sourceMappingURL=prix3.js.map

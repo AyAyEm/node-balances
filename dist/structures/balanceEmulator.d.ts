@@ -16,13 +16,13 @@ export declare abstract class BalanceEmulator {
     protected loopIntervals: Array<ReturnType<typeof setInterval>>;
     constructor(portIds: Partial<PortInfo>[], manager: BalanceManager);
     get emittingData(): Buffer | {
-        uranoPop: {
+        UranoPop: {
             samples: {
                 name: string;
                 data: string;
             }[];
         };
-        prix3: {
+        Prix3: {
             samples: {
                 name: string;
                 data: string;

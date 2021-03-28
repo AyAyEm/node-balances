@@ -32,13 +32,17 @@ class BalanceEmulator {
             };
             this.manager.addListener('connect', (balance) => {
                 const emitData = () => {
+                    if (!balance.serialPort.isOpen) {
+                        return;
+                    }
                     if (this._emittingData instanceof Buffer) {
-                        return balance.serialPort.binding.emitData(this._emittingData);
+                        balance.serialPort.binding.emitData(this._emittingData);
+                        return;
                     }
                     const { model } = balance.balanceId;
                     const modelData = this._emittingData[model].samples;
                     const toEmitData = modelData[utils_1.randomInterval([0, modelData.length - 1])];
-                    return balance.serialPort.binding.emitData(Buffer.from(toEmitData.data));
+                    balance.serialPort.binding.emitData(Buffer.from(toEmitData.data));
                 };
                 emitData();
                 const interval = setInterval(() => {

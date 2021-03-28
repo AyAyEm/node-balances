@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BalanceEvents = exports.BalanceModels = void 0;
 var BalanceModels;
 (function (BalanceModels) {
-    BalanceModels["uranoPop"] = "uranoPop";
-    BalanceModels["prix3"] = "prix3";
+    BalanceModels["UranoPop"] = "UranoPop";
+    BalanceModels["Prix3"] = "Prix3";
 })(BalanceModels = exports.BalanceModels || (exports.BalanceModels = {}));
 var BalanceEvents;
 (function (BalanceEvents) {

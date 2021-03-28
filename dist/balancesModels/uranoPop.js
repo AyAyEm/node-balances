@@ -77,6 +77,6 @@ class UranoPop extends balanceModel_1.BalanceModel {
     }
 }
 exports.UranoPop = UranoPop;
-UranoPop.model = 'uranoPop';
+UranoPop.model = 'UranoPop';
 exports.default = UranoPop;
 //# sourceMappingURL=uranoPop.js.map

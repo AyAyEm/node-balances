@@ -1,5 +1,5 @@
 {
-    "uranoPop": {
+    "UranoPop": {
         "samples": [{
                 "name": "use-cb2",
                 "data": "\u0002\u0001\u0003\u0008\u0002\u0003\u0003\u0002\u0003\u0001\u0002\u0000\u0014DATA:  00/00/00 VALID.: 00/00/00      TARA:   0.000kg       PESO L:  0.060kg      R$/kg:     25.00      TOTAL R$:      1.50200000000150"
@@ -10,7 +10,7 @@
             }
         ]
     },
-    "prix3": {
+    "Prix3": {
         "samples": [{
                 "name": "Prt1",
                 "data": "\u000212345\u0003"

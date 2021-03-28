@@ -9,8 +9,8 @@
     "listPorts": "ts-node ./examples/serialPortList",
     "lint": "eslint \"./src/**/*.ts\" --quiet --fix",
     "build": "tsc -b ./",
-    "test": "jest ./tests",
-    "test:watch": "jest --watch ./tests"
+    "test": "jest ./tests --forceExit",
+    "test:watch": "jest --watch --forceExit ./tests"
   },
   "repository": {
     "type": "git",
@@ -29,11 +29,13 @@
     "serialport": "^9.0.7"
   },
   "devDependencies": {
+    "@types/async": "^3.2.5",
     "@types/jest": "^26.0.20",
     "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.11",
     "@typescript-eslint/eslint-plugin": "4.4.1",
     "@typescript-eslint/parser": "^4.11.1",
+    "async": "^3.2.0",
     "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.0.0",
