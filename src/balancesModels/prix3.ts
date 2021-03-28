@@ -14,7 +14,7 @@ import type { BalanceModels } from '../types';
  *   .catch((error) => error);
  */
 export class Prix3 extends BalanceModel {
-  public static model: keyof typeof BalanceModels = 'prix3';
+  public static model: keyof typeof BalanceModels = 'Prix3';
 
   public parser: null = null;
 
