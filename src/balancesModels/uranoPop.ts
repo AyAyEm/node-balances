@@ -17,7 +17,7 @@ import type { BalanceModels } from '../types';
  *   .catch((error) => error);
  */
 export class UranoPop extends BalanceModel {
-  public static model: keyof typeof BalanceModels = 'uranoPop';
+  public static model: keyof typeof BalanceModels = 'UranoPop';
 
   public parser = new DelimiterParser({
     delimiters: [[0x03, 0x09, 0x02, 0x01, 0x03], 'P1'],
